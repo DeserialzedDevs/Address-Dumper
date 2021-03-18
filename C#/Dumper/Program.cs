@@ -20,6 +20,8 @@ namespace Dumper
             Console.WriteLine("Scanning RBX " + wc.DownloadString("http://setup.roblox.com/version"));
             watch.Start();
             // do scanning and stuff
+            
+            var Deserializer = util.getPrologue(scanner.scan_xrefs(": bytecode").Last()); //Deserializer Address
 
             watch.Stop();
             Console.WriteLine();
