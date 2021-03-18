@@ -26,6 +26,7 @@ namespace Dumper
         {
             Console.Title = "C# Address Dumper";
             Console.WriteLine("Scanning RBX " + wc.DownloadString("http://setup.roblox.com/version"));
+	    Console.WriteLine();
             watch.Start();         
             
             // Scan AOBs
