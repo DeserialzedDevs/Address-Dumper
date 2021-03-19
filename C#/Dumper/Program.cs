@@ -58,7 +58,10 @@ namespace Dumper
 	    }
 	    else 
 	    {
-		    
+                Console.Write("\n" + "  Roblox Not Found... Closing Application ");
+		Console.ReadLine();
+                Thread.Sleep(2000);
+                Environment.Exit(0);
 	    }
         }
 
