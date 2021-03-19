@@ -23,7 +23,6 @@ namespace Dumper
             string index2adr = "55 8B EC 8B 55 ?? 81 FA F0 D8 FF FF 7E 0F ?? ?? ?? ?? E2 04 03 51 10 8B C2 5D C2 08 00 8B 45 08"; /*may break at some point*/
             string retcheck = "55 8B EC 64 A1 00 00 00 00 6A ?? 68 E8 ?? ?? ?? ?? 64 89 25 00 00 00 00 83 EC ?? 53 56 57 6A ?? E9 ?? ?? ?? ??"; /*may break at some point*/
             string deserialize = "55 8B EC 6A FF 68 70 ?? ?? ?? ?? A1 00 00 00 00 50 64 89 25 00 00 00 00 81 EC 58 01 00 00 56 57"; /*Again not 100% sure about this one's integrity*/
-            string getdatamodel = "55 8B EC 64 A1 00 00 00 00 6A FF 68 ?? ?? ?? ?? 50 64 89 25 00 00 00 00 83 EC ?? 80 3D 70 51 5E";
 
             Console.Title = "C# Address Dumper";
             if (Process.GetProcessesByName("RobloxPlayerBeta").Length < 1)
@@ -43,15 +42,14 @@ namespace Dumper
             int retcheck_addr = scanner.scan(retcheck)[0];
             int deserialize_addr = scanner.scan(deserialize)[0];
 
-            // Log addresses
-            LogFunc("deserializer", util.raslr(deserialize_addr));
-            LogFunc("index2adr", util.raslr(index2adr_addr));
-
             // More scanning
             var retcheck_xrefs = scanner.scan_xrefs(retcheck_addr);
             var index2adr_xrefs = scanner.scan_xrefs(index2adr_addr);
 
-            // retcheck addresses
+            // Log addresses
+            LogFunc("deserializer", util.raslr(deserialize_addr));
+            LogFunc("index2adr", util.raslr(index2adr_addr));
+
             LogFunc("lua_call", util.raslr(util.getPrologue(retcheck_xrefs[1])));
             LogFunc("lua_concat", util.raslr(util.getPrologue(retcheck_xrefs[3])));
             LogFunc("lua_createtable", util.raslr(util.getPrologue(retcheck_xrefs[4])));
@@ -65,6 +63,10 @@ namespace Dumper
             LogFunc("lua_gettop", util.raslr(gettop_addr));
             LogFunc("lua_getupvalue", util.raslr(util.getPrologue(retcheck_xrefs[10])));
             LogFunc("lua_insert", util.raslr(util.getPrologue(retcheck_xrefs[11])));
+            LogFunc("lua_iscfunction", util.raslr(util.getPrologue(index2adr_xrefs[8])));
+            LogFunc("lua_isnumber", util.raslr(util.getPrologue(index2adr_xrefs[9])));
+            LogFunc("lua_isstring", util.raslr(util.getPrologue(index2adr_xrefs[10])));
+            LogFunc("lua_isuserdata", util.raslr(util.getPrologue(index2adr_xrefs[7])));
             LogFunc("lua_lessthan", util.raslr(util.getPrologue(retcheck_xrefs[12])));
             LogFunc("lua_newthread", util.raslr(util.getPrologue(retcheck_xrefs[13])));
             LogFunc("lua_newuserdata", util.raslr(util.getPrologue(retcheck_xrefs[14])));
@@ -88,6 +90,7 @@ namespace Dumper
             LogFunc("lua_rawgeti", util.raslr(util.getPrologue(retcheck_xrefs[35])));
             LogFunc("lua_rawset", util.raslr(util.getPrologue(retcheck_xrefs[36])));
             LogFunc("lua_rawseti", util.raslr(util.getPrologue(retcheck_xrefs[37])));
+            LogFunc("lua_rawvalue", util.raslr(util.getPrologue(index2adr_xrefs[0])));
             LogFunc("lua_remove", util.raslr(util.getPrologue(retcheck_xrefs[38])));
             LogFunc("lua_replace", util.raslr(util.getPrologue(retcheck_xrefs[39])));
             LogFunc("lua_resume", util.raslr(util.getPrologue(retcheck_xrefs[53])));
@@ -100,7 +103,16 @@ namespace Dumper
             LogFunc("lua_settable", util.raslr(util.getPrologue(retcheck_xrefs[45])));
             LogFunc("lua_settop", util.raslr(util.getPrologue(retcheck_xrefs[46])));
             LogFunc("lua_setupvalue", util.raslr(util.getPrologue(retcheck_xrefs[47])));
+            LogFunc("lua_toboolean", util.raslr(util.getPrologue(index2adr_xrefs[33])));
+            LogFunc("lua_tointeger", util.raslr(util.getPrologue(index2adr_xrefs[34])));
             LogFunc("lua_tolstring", util.raslr(util.getPrologue(retcheck_xrefs[48])));
+            LogFunc("lua_tonumber", util.raslr(util.getPrologue(index2adr_xrefs[37])));
+            LogFunc("lua_topointer", util.raslr(util.getPrologue(index2adr_xrefs[38])));
+            LogFunc("lua_tostring", util.raslr(util.getPrologue(index2adr_xrefs[40])));
+            LogFunc("lua_tothread", util.raslr(util.getPrologue(index2adr_xrefs[42])));
+            LogFunc("lua_tounsignedx", util.raslr(util.getPrologue(index2adr_xrefs[43])));
+            LogFunc("lua_touserdata", util.raslr(util.getPrologue(index2adr_xrefs[44])));
+            LogFunc("lua_type", util.raslr(util.getPrologue(index2adr_xrefs[47])));
             LogFunc("lua_yield", util.raslr(util.getPrologue(retcheck_xrefs[54])));
             LogFunc("lua_xmove", util.raslr(util.getPrologue(retcheck_xrefs[50])));
 
@@ -118,7 +130,7 @@ namespace Dumper
 
         static void LogFunc(string fname, int addy)
         {
-            int space = 20 - fname.Length;
+            int space = 22 - fname.Length;
 
             Console.Write(fname);
             for (int i = 0; i < space; i++)
