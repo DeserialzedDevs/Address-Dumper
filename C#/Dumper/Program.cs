@@ -28,7 +28,7 @@ namespace Dumper
             if (Process.GetProcessesByName("RobloxPlayerBeta").Length < 1)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("Please open Roblox first!");
+                ; Console.WriteLine("Please open Roblox first!");
                 Thread.Sleep(3000);
                 Environment.Exit(0);
             }
@@ -47,79 +47,79 @@ namespace Dumper
             var index2adr_xrefs = scanner.scan_xrefs(index2adr_addr);
 
             // Log addresses
-            LogFunc("deserializer", deserialize_addr));
-            LogFunc("index2adr", index2adr_addr));
+            LogFunc("deserializer", deserialize_addr);
+            LogFunc("index2adr", index2adr_addr);
 
-            LogFunc("lua_call", util.getPrologue(retcheck_xrefs[1]));
-            LogFunc("lua_concat", util.getPrologue(retcheck_xrefs[3]));
-            LogFunc("lua_createtable", util.getPrologue(retcheck_xrefs[4]));
-            LogFunc("lua_gc", util.getPrologue(retcheck_xrefs[5]));
-            LogFunc("lua_getargument", util.getPrologue(retcheck_xrefs[57]));
-            LogFunc("lua_getfenv", util.getPrologue(retcheck_xrefs[6]));
-            LogFunc("lua_getfield", util.getPrologue(retcheck_xrefs[7]));
-            LogFunc("lua_getinfo", util.getPrologue(retcheck_xrefs[58]));
-            LogFunc("lua_getmetatable", util.getPrologue(retcheck_xrefs[8]));
-            LogFunc("lua_gettable", util.getPrologue(retcheck_xrefs[9]));
+            LogFunc("lua_call", retcheck_xrefs[1]);
+            LogFunc("lua_concat", retcheck_xrefs[3]);
+            LogFunc("lua_createtable", retcheck_xrefs[4]);
+            LogFunc("lua_gc", retcheck_xrefs[5]);
+            LogFunc("lua_getargument", retcheck_xrefs[57]);
+            LogFunc("lua_getfenv", retcheck_xrefs[6]);
+            LogFunc("lua_getfield", retcheck_xrefs[7]);
+            LogFunc("lua_getinfo", retcheck_xrefs[58]);
+            LogFunc("lua_getmetatable", retcheck_xrefs[8]);
+            LogFunc("lua_gettable", retcheck_xrefs[9]);
             LogFunc("lua_gettop", gettop_addr);
-            LogFunc("lua_getupvalue", util.getPrologue(retcheck_xrefs[10]));
-            LogFunc("lua_insert", util.getPrologue(retcheck_xrefs[11]));
-            LogFunc("lua_iscfunction", util.getPrologue(index2adr_xrefs[8]));
-            LogFunc("lua_isnumber", util.getPrologue(index2adr_xrefs[9]));
-            LogFunc("lua_isstring", util.getPrologue(index2adr_xrefs[10]));
-            LogFunc("lua_isuserdata", util.getPrologue(index2adr_xrefs[7]));
-            LogFunc("lua_lessthan", util.getPrologue(retcheck_xrefs[12]));
-            LogFunc("lua_newthread", util.getPrologue(retcheck_xrefs[13]));
-            LogFunc("lua_newuserdata", util.getPrologue(retcheck_xrefs[14]));
-            LogFunc("lua_next", util.getPrologue(retcheck_xrefs[15]));
-            LogFunc("lua_objlen", util.getPrologue(retcheck_xrefs[16]));
-            LogFunc("lua_pcall", util.getPrologue(retcheck_xrefs[17]));
-            LogFunc("lua_pushboolean", util.getPrologue(retcheck_xrefs[18]));
-            LogFunc("lua_pushcclosure", util.getPrologue(retcheck_xrefs[19]));
-            LogFunc("lua_pushfstring", util.getPrologue(retcheck_xrefs[20]));
-            LogFunc("lua_pushinteger", util.getPrologue(retcheck_xrefs[21]));
-            LogFunc("lua_pushlightuserdata", util.getPrologue(retcheck_xrefs[22]));
-            LogFunc("lua_pushlstring", util.getPrologue(retcheck_xrefs[23]));
-            LogFunc("lua_pushnil", util.getPrologue(retcheck_xrefs[24]));
-            LogFunc("lua_pushnumber", util.getPrologue(retcheck_xrefs[25]));
-            LogFunc("lua_pushstring", util.getPrologue(retcheck_xrefs[26]));
-            LogFunc("lua_pushthread", util.getPrologue(retcheck_xrefs[28]));
-            LogFunc("lua_pushvalue", util.getPrologue(retcheck_xrefs[30]));
-            LogFunc("lua_pushvfstring", util.getPrologue(retcheck_xrefs[31]));
-            LogFunc("lua_checkstack", util.getPrologue(retcheck_xrefs[32]));
-            LogFunc("lua_rawget", util.getPrologue(retcheck_xrefs[33]));
-            LogFunc("lua_rawgeti", util.getPrologue(retcheck_xrefs[35]));
-            LogFunc("lua_rawset", util.getPrologue(retcheck_xrefs[36]));
-            LogFunc("lua_rawseti", util.getPrologue(retcheck_xrefs[37]));
-            LogFunc("lua_rawvalue", util.getPrologue(index2adr_xrefs[0]));
-            LogFunc("lua_remove", util.getPrologue(retcheck_xrefs[38]));
-            LogFunc("lua_replace", util.getPrologue(retcheck_xrefs[39]));
-            LogFunc("lua_resume", util.getPrologue(retcheck_xrefs[53]));
-            LogFunc("lua_setfenv", util.getPrologue(retcheck_xrefs[40]));
-            LogFunc("lua_setfield", util.getPrologue(retcheck_xrefs[41]));
-            LogFunc("lua_setlocal", util.getPrologue(retcheck_xrefs[60]));
-            LogFunc("lua_setmetatable", util.getPrologue(retcheck_xrefs[42]));
-            LogFunc("lua_setreadonly", util.getPrologue(retcheck_xrefs[43]));
-            LogFunc("lua_setsafeenv", util.getPrologue(retcheck_xrefs[44]));
-            LogFunc("lua_settable", util.getPrologue(retcheck_xrefs[45]));
-            LogFunc("lua_settop", util.getPrologue(retcheck_xrefs[46]));
-            LogFunc("lua_setupvalue", util.getPrologue(retcheck_xrefs[47]));
-            LogFunc("lua_toboolean", util.getPrologue(index2adr_xrefs[33]));
-            LogFunc("lua_tointeger", util.getPrologue(index2adr_xrefs[34]));
-            LogFunc("lua_tolstring", util.getPrologue(retcheck_xrefs[48]));
-            LogFunc("lua_tonumber", util.getPrologue(index2adr_xrefs[37]));
-            LogFunc("lua_topointer", util.getPrologue(index2adr_xrefs[38]));
-            LogFunc("lua_tostring", util.getPrologue(index2adr_xrefs[40]));
-            LogFunc("lua_tothread", util.getPrologue(index2adr_xrefs[42]));
-            LogFunc("lua_tounsignedx", util.getPrologue(index2adr_xrefs[43]));
-            LogFunc("lua_touserdata", util.getPrologue(index2adr_xrefs[44]));
-            LogFunc("lua_type", util.getPrologue(index2adr_xrefs[47]));
-            LogFunc("lua_yield", util.getPrologue(retcheck_xrefs[54]));
-            LogFunc("lua_xmove", util.getPrologue(retcheck_xrefs[50]));
+            LogFunc("lua_getupvalue", retcheck_xrefs[10]);
+            LogFunc("lua_insert", retcheck_xrefs[11]);
+            LogFunc("lua_iscfunction", index2adr_xrefs[8]);
+            LogFunc("lua_isnumber", index2adr_xrefs[9]);
+            LogFunc("lua_isstring", index2adr_xrefs[10]);
+            LogFunc("lua_isuserdata", index2adr_xrefs[7]);
+            LogFunc("lua_lessthan", retcheck_xrefs[12]);
+            LogFunc("lua_newthread", retcheck_xrefs[13]);
+            LogFunc("lua_newuserdata", retcheck_xrefs[14]);
+            LogFunc("lua_next", retcheck_xrefs[15]);
+            LogFunc("lua_objlen", retcheck_xrefs[16]);
+            LogFunc("lua_pcall", retcheck_xrefs[17]);
+            LogFunc("lua_pushboolean", retcheck_xrefs[18]);
+            LogFunc("lua_pushcclosure", retcheck_xrefs[19]);
+            LogFunc("lua_pushfstring", retcheck_xrefs[20]);
+            LogFunc("lua_pushinteger", retcheck_xrefs[21]);
+            LogFunc("lua_pushlightuserdata", retcheck_xrefs[22]);
+            LogFunc("lua_pushlstring", retcheck_xrefs[23]);
+            LogFunc("lua_pushnil", retcheck_xrefs[24]);
+            LogFunc("lua_pushnumber", retcheck_xrefs[25]);
+            LogFunc("lua_pushstring", retcheck_xrefs[26]);
+            LogFunc("lua_pushthread", retcheck_xrefs[28]);
+            LogFunc("lua_pushvalue", retcheck_xrefs[30]);
+            LogFunc("lua_pushvfstring", retcheck_xrefs[31]);
+            LogFunc("lua_checkstack", retcheck_xrefs[32]);
+            LogFunc("lua_rawget", retcheck_xrefs[33]);
+            LogFunc("lua_rawgeti", retcheck_xrefs[35]);
+            LogFunc("lua_rawset", retcheck_xrefs[36]);
+            LogFunc("lua_rawseti", retcheck_xrefs[37]);
+            LogFunc("lua_rawvalue", index2adr_xrefs[0]);
+            LogFunc("lua_remove", retcheck_xrefs[38]);
+            LogFunc("lua_replace", retcheck_xrefs[39]);
+            LogFunc("lua_resume", retcheck_xrefs[53]);
+            LogFunc("lua_setfenv", retcheck_xrefs[40]);
+            LogFunc("lua_setfield", retcheck_xrefs[41]);
+            LogFunc("lua_setlocal", retcheck_xrefs[60]);
+            LogFunc("lua_setmetatable", retcheck_xrefs[42]);
+            LogFunc("lua_setreadonly", retcheck_xrefs[43]);
+            LogFunc("lua_setsafeenv", retcheck_xrefs[44]);
+            LogFunc("lua_settable", retcheck_xrefs[45]);
+            LogFunc("lua_settop", retcheck_xrefs[46]);
+            LogFunc("lua_setupvalue", retcheck_xrefs[47]);
+            LogFunc("lua_toboolean", index2adr_xrefs[33]);
+            LogFunc("lua_tointeger", index2adr_xrefs[34]);
+            LogFunc("lua_tolstring", retcheck_xrefs[48]);
+            LogFunc("lua_tonumber", index2adr_xrefs[37]);
+            LogFunc("lua_topointer", index2adr_xrefs[38]);
+            LogFunc("lua_tostring", index2adr_xrefs[40]);
+            LogFunc("lua_tothread", index2adr_xrefs[42]);
+            LogFunc("lua_tounsignedx", index2adr_xrefs[43]);
+            LogFunc("lua_touserdata", index2adr_xrefs[44]);
+            LogFunc("lua_type", index2adr_xrefs[47]);
+            LogFunc("lua_yield", retcheck_xrefs[54]);
+            LogFunc("lua_xmove", retcheck_xrefs[50]);
 
-            LogFunc("luaU_callhook", util.getPrologue(retcheck_xrefs[56]));
+            LogFunc("luaU_callhook", retcheck_xrefs[56]);
 
-            LogFunc("f_call", util.getPrologue(retcheck_xrefs[0]));
-            LogFunc("resume_error", util.getPrologue(retcheck_xrefs[55]));
+            LogFunc("f_call", retcheck_xrefs[0]);
+            LogFunc("resume_error", retcheck_xrefs[55]);
 
             watch.Stop();
             Console.WriteLine();
@@ -133,11 +133,10 @@ namespace Dumper
             int space = 22 - fname.Length;
 
             Console.Write(fname);
-            for (int i = 0; i < space; i++)
-            {
-                Console.Write(" ");
-            }
-            Console.Write(": 0x" + util.raslr(addy).ToString("X") + " " + GetConvention(addy) + Environment.NewLine);
+            for (int i = 0; i < space; i++) { Console.Write(" "); }
+
+            if (util.isPrologue(addy)) { Console.Write(": 0x" + util.raslr(addy).ToString("X") + " " + GetConvention(addy) + Environment.NewLine); }
+            else { Console.Write(": 0x" + util.raslr(util.getPrologue(addy)).ToString("X") + " " + GetConvention(addy) + Environment.NewLine); }
             addycount = addycount + 1;
         }
         static string GetConvention(int Function)
