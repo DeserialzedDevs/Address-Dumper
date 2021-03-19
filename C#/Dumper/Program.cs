@@ -28,7 +28,7 @@ namespace Dumper
             if (Process.GetProcessesByName("RobloxPlayerBeta").Length < 1)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
-;               Console.WriteLine("Please open Roblox first!");
+                Console.WriteLine("Please open Roblox first!");
                 Thread.Sleep(3000);
                 Environment.Exit(0);
             }
