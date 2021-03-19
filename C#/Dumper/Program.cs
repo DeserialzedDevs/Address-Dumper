@@ -24,45 +24,31 @@ namespace Dumper
         
         static void Main(string[] args)
         {
-            Process[] DetectingRoblox = Process.GetProcessesByName("RobloxPlayerBeta");
-            if (DetectingRoblox.Length > 0)
-            {
-                foreach (var RobloxFound in Process.GetProcessesByName("RobloxPlayerBeta"))
-                {
-	            Console.Title = "C# Address Dumper";
-                    Console.WriteLine("Scanning RBX " + wc.DownloadString("http://setup.roblox.com/version"));
-	            Console.WriteLine();
-                    watch.Start();         
+		Console.Title = "C# Address Dumper";
+                Console.WriteLine("Scanning RBX " + wc.DownloadString("http://setup.roblox.com/version"));
+	        Console.WriteLine();
+                watch.Start();         
             
-                    // Scan AOBs
-                    int gettop_addr = scanner.scan(gettop)[0];
-                    int index2adr_addr = scanner.scan(index2adr)[0];
-                    int retcheck_addr = scanner.scan(retcheck)[0];
-                    int deserialize_addr = scanner.scan(deserialize)[0];
+                // Scan AOBs
+                int gettop_addr = scanner.scan(gettop)[0];
+                int index2adr_addr = scanner.scan(index2adr)[0];
+                int retcheck_addr = scanner.scan(retcheck)[0];
+                int deserialize_addr = scanner.scan(deserialize)[0];
             
-                    // Log addresses
-                    LogFunc("deserializer", util.raslr(deserialize_addr));
-                    LogFunc("lua_gettop", util.raslr(gettop_addr));
-                    LogFunc("index2adr", util.raslr(index2adr_addr));
+                // Log addresses
+                LogFunc("deserializer", util.raslr(deserialize_addr));
+                LogFunc("lua_gettop", util.raslr(gettop_addr));
+                LogFunc("index2adr", util.raslr(index2adr_addr));
             
-                    // More scanning
-                    var retcheck_xrefs = scanner.scan_xrefs(retcheck_addr);
-                    var index2adr_xrefs = scanner.scan_xrefs(index2adr_addr);
+                // More scanning
+                var retcheck_xrefs = scanner.scan_xrefs(retcheck_addr);
+                var index2adr_xrefs = scanner.scan_xrefs(index2adr_addr);
 
-                    watch.Stop();
-                    Console.WriteLine();
-                    Console.WriteLine("Scanned " + addycount + " addresses" + " in " + watch.ElapsedMilliseconds + "ms");
-	            Console.WriteLine("Press Enter To Exit...");
-	            Console.ReadLine();
-		}
-	    }
-	    else 
-	    {
-                Console.Write("\n" + "  Roblox Not Found... Closing Application ");
-		Console.ReadLine();
-                Thread.Sleep(2000);
-                Environment.Exit(0);
-	    }
+                watch.Stop();
+                Console.WriteLine();
+                Console.WriteLine("Scanned " + addycount + " addresses" + " in " + watch.ElapsedMilliseconds + "ms");
+	        Console.WriteLine("Press Enter To Exit...");
+	        Console.ReadLine();
         }
 
         static void LogFunc(string fname, int addy)
