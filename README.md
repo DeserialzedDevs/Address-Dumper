@@ -14,8 +14,3 @@ Unfinished Work-In-Progress
 <a title="C++" href="https://www.learncpp.com/">
     <img width="35" src="https://github.com/devicons/devicon/blob/master/icons/cplusplus/cplusplus-original.svg" alt="CPP">
 </a>
-
-
-[EyeStep C++](https://github.com/thedoomed/EyeStep-CPP)
-
-[EyeStep C#](https://github.com/thedoomed/EyeStep-CSharp)
