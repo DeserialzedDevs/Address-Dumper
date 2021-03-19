@@ -47,6 +47,8 @@ namespace Dumper
             watch.Stop();
             Console.WriteLine();
             Console.WriteLine("Scanned " + addycount + " addresses" + " in " + watch.ElapsedMilliseconds + "ms");
+	    Console.WriteLine("Press Enter To Exit...");
+	    Console.ReadLine();
         }
 
         static void LogFunc(string fname, int addy)
