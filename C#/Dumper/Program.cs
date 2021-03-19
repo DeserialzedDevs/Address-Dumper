@@ -6,6 +6,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using EyeStepPackage;
+using System.Threading;
 
 namespace Dumper
 {
@@ -25,7 +26,14 @@ namespace Dumper
         static void Main(string[] args)
         {
             Console.Title = "C# Address Dumper";
-            Console.WriteLine("Scanning RBX " + wc.DownloadString("http://setup.roblox.com/version"));
+            if (Process.GetProcessesByName("RobloxPlayerBeta").Length < 1)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+;               Console.WriteLine("Please open Roblox first!");
+                Thread.Sleep(3000);
+                Environment.Exit(0);
+            }
+            Console.WriteLine("Scanning RBX " + wc.DownloadString("http://setup.roblox.com/version" + "..."));
             Console.WriteLine();
             watch.Start();
 
@@ -46,6 +54,7 @@ namespace Dumper
 
             watch.Stop();
             Console.WriteLine();
+            Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("Scanned " + addycount + " addresses" + " in " + watch.ElapsedMilliseconds + "ms");
         }
 
