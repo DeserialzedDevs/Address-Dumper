@@ -28,7 +28,7 @@ namespace Dumper
             if (Process.GetProcessesByName("RobloxPlayerBeta").Length < 1)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
-                ; Console.WriteLine("Please open Roblox first!");
+                Console.WriteLine("Please open Roblox first!");
                 Thread.Sleep(3000);
                 Environment.Exit(0);
             }
@@ -130,13 +130,13 @@ namespace Dumper
 
         static void LogFunc(string fname, int addy) // Cool function
         {
-            int space = 22 - fname.Length;
+            if (!util.isPrologue(addy)) { addy = util.getPrologue(addy); }
+            int space = 25 - fname.Length;
 
             Console.Write(fname);
             for (int i = 0; i < space; i++) { Console.Write(" "); }
 
-            if (util.isPrologue(addy)) { Console.Write(": 0x" + util.raslr(addy).ToString("X") + " " + GetConvention(addy) + Environment.NewLine); }
-            else { Console.Write(": 0x" + util.raslr(util.getPrologue(addy)).ToString("X") + " " + GetConvention(addy) + Environment.NewLine); }
+            Console.Write(": 0x" + util.raslr(util.getPrologue(addy)).ToString("X") + " " + GetConvention(addy) + Environment.NewLine);
             addycount = addycount + 1;
         }
         

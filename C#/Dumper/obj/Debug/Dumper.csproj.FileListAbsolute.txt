@@ -1,0 +1,7 @@
+C:\Users\Ethan\Documents\GitHub\Address-Dumper\C#\Dumper\bin\Debug\Dumper.exe.config
+C:\Users\Ethan\Documents\GitHub\Address-Dumper\C#\Dumper\bin\Debug\Dumper.exe
+C:\Users\Ethan\Documents\GitHub\Address-Dumper\C#\Dumper\bin\Debug\Dumper.pdb
+C:\Users\Ethan\Documents\GitHub\Address-Dumper\C#\Dumper\obj\Debug\Dumper.csprojAssemblyReference.cache
+C:\Users\Ethan\Documents\GitHub\Address-Dumper\C#\Dumper\obj\Debug\Dumper.csproj.CoreCompileInputs.cache
+C:\Users\Ethan\Documents\GitHub\Address-Dumper\C#\Dumper\obj\Debug\Dumper.exe
+C:\Users\Ethan\Documents\GitHub\Address-Dumper\C#\Dumper\obj\Debug\Dumper.pdb
