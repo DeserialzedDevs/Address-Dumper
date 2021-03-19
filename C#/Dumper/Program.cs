@@ -128,7 +128,7 @@ namespace Dumper
             Thread.Sleep(-1);
         }
 
-        static void LogFunc(string fname, int addy)
+        static void LogFunc(string fname, int addy) // Cool function
         {
             int space = 22 - fname.Length;
 
@@ -139,6 +139,7 @@ namespace Dumper
             else { Console.Write(": 0x" + util.raslr(util.getPrologue(addy)).ToString("X") + " " + GetConvention(addy) + Environment.NewLine); }
             addycount = addycount + 1;
         }
+        
         static string GetConvention(int Function)
         {
             byte Call = util.getConvention(Function);
