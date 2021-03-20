@@ -114,7 +114,6 @@ namespace Dumper
 
             Console.WriteLine();
             Console.WriteLine("Addresses:");
-            Console.WriteLine();
             // Log addresses
             LogFunc("deserializer", deserialize_addr);
             LogFunc("index2adr", index2adr_addr);
@@ -197,7 +196,6 @@ namespace Dumper
             // log and get offsets
             Console.WriteLine();
             Console.WriteLine("Offsets:");
-            Console.WriteLine();
 
             int iscfunc_addr = util.getPrologue(index2adr_xrefs[8]);
             for (int i = 0; i < 72; i++) // 72 is all the bytes in lua_iscfunction
