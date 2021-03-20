@@ -39,7 +39,16 @@ namespace Dumper
             Console.Write(": 0x" + off + Environment.NewLine);
         }
 
-        static void LogAddr(string fname, int addy) // Cool function
+        static void LogOffNoHex(string name, int off) 
+        {
+            int space = 25 - name.Length;
+
+            Console.Write(name);
+            for (int i = 0; i < space; i++) { Console.Write(" "); }
+            Console.Write(": " + off + Environment.NewLine);
+        }
+
+    static void LogAddr(string fname, int addy) // Cool function
         {
             int space = 25 - fname.Length;
 
@@ -89,6 +98,7 @@ namespace Dumper
             string deserialize = "55 8B EC 6A FF 68 70 ?? ?? ?? ?? A1 00 00 00 00 50 64 89 25 00 00 00 00 81 EC 58 01 00 00 56 57"; /*Again not 100% sure about this one's integrity*/
             string print = "55 8B EC 6A FF 68 ?? ?? ?? ?? 64 A1 00 00 00 00 50 64 89 25 00 00 00 00 83 EC 18 8D 45 10 50 FF";
             string delay = "55 8B EC 6A FF 68 ?? ?? ?? ?? 64 A1 00 00 00 00 50 64 89 25 00 00 00 00 83 EC ?? 53 56 57 F0 FF";
+            string checklstring = "55 8B EC FF 75 ?? 8B 55 ?? 8B 4D ?? E8 ?? ?? ?? ?? 85 C0 74 02 5D C3 6A ?? FF 75 ?? FF 75 ?? E8 6C 07 00 00";
 
             Console.Title = "C# Address Dumper";
             if (Process.GetProcessesByName("RobloxPlayerBeta").Length < 1)
@@ -114,6 +124,7 @@ namespace Dumper
 
             Console.WriteLine();
             Console.WriteLine("Addresses:");
+            Console.WriteLine();
             // Log addresses
             LogFunc("deserializer", deserialize_addr);
             LogFunc("index2adr", index2adr_addr);
@@ -184,6 +195,8 @@ namespace Dumper
             LogFunc("lua_yield", retcheck_xrefs[54]);
             LogFunc("lua_xmove", retcheck_xrefs[50]);
 
+            LogFunc("luaL_checklstring", scanner.scan(checklstring)[0]);
+
             LogFunc("luaU_callhook", retcheck_xrefs[56]);
 
             LogFunc("delay", scanner.scan(delay)[0]);
@@ -196,6 +209,7 @@ namespace Dumper
             // log and get offsets
             Console.WriteLine();
             Console.WriteLine("Offsets:");
+            Console.WriteLine();
 
             int iscfunc_addr = util.getPrologue(index2adr_xrefs[8]);
             for (int i = 0; i < 72; i++) // 72 is all the bytes in lua_iscfunction
@@ -227,6 +241,7 @@ namespace Dumper
                 }
             }
             // the IsC dumping might die at one point but it shouldnt for a long time
+
 
             watch.Stop();
             Console.WriteLine();
