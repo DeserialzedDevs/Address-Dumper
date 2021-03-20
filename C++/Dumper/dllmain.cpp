@@ -35,7 +35,7 @@ void LogOff(const char* name, int off) {
 
     for (int i = 0; i < space; i++)
         std::cout << " ";
-    std::cout << ": " << off << std::endl;
+    std::cout << ": 0x" << off << std::endl;
 }
 
 void main() {
