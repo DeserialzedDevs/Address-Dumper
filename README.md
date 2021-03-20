@@ -4,11 +4,11 @@ An open source ROBLOX address dumper by DeserializedDevs.
 Side note: Calling conventions are currently innacurate
 
 ## Versions
-C++ Internal
+[C++ Internal](https://github.com/DeserialzedDevs/Address-Dumper/tree/main/Internal)
 
-C++ External
+[C++ External](https://github.com/DeserialzedDevs/Address-Dumper/tree/main/External)
 
-C# External
+[C# External](https://github.com/DeserialzedDevs/Address-Dumper/tree/main/C%23)
 
 ## License
 GNU General Public License 3.0
