@@ -5,6 +5,7 @@
 #include "EyeStep/eyestep_utility.h"
 #include <iostream>
 #include <time.h>
+#include "retcheck.h"
 #define getConvention(a) EyeStep::convs[EyeStep::util::getConvention(a)]
 
 
@@ -36,6 +37,15 @@ void LogOff(const char* name, int off) {
     for (int i = 0; i < space; i++)
         std::cout << " ";
     std::cout << ": 0x" << off << std::endl;
+}
+
+void LogOffNoHex(const char* name, int off) {
+    std::cout << name;
+    int space = 25 - strlen(name);
+
+    for (int i = 0; i < space; i++)
+        std::cout << " ";
+    std::cout << ": " << off << std::endl;
 }
 
 void main() {
@@ -134,6 +144,8 @@ void main() {
 
     LogFunc("luaU_callhook", retcheck_xrefs[56]);
 
+    LogFunc("luaL_checklstring", EyeStep::scanner::scan(AOB::lual_checklstring)[0]);
+
     LogFunc("f_call", retcheck_xrefs[0]);
     LogFunc("resume_error", retcheck_xrefs[55]);
     LogFunc("delay", EyeStep::scanner::scan(AOB::delay)[0]);
@@ -169,6 +181,60 @@ void main() {
         }
     }
     /*the IsC dumping might die at one point but it shouldnt for a long time*/
+
+
+    typedef int(__cdecl* T_getfield)(int, int, const char*);
+    typedef int(__cdecl* T_pushstring)(int, const char*);
+    typedef int(__cdecl* T_type)(int, int);
+    typedef int(__cdecl* T_newthread)(int);
+    typedef int(__cdecl* T_settop)(int, int);
+    typedef int(__cdecl* T_pushlightuserdata)(int, int);
+    T_getfield r_lua_getfield = reinterpret_cast<T_getfield>(EyeStep::util::createRoutine(unprotect(EyeStep::util::getPrologue(retcheck_xrefs[7])), 3));
+    T_pushstring r_lua_pushstring = reinterpret_cast<T_pushstring>(EyeStep::util::createRoutine(unprotect(EyeStep::util::getPrologue(retcheck_xrefs[26])), 2));
+    T_type r_lua_type = reinterpret_cast<T_type>(EyeStep::util::createRoutine(unprotect(EyeStep::util::getPrologue(index2adr_xrefs[47])), 2));
+    T_newthread r_lua_newthread = reinterpret_cast<T_newthread>(EyeStep::util::createRoutine(unprotect(EyeStep::util::getPrologue(retcheck_xrefs[13])), 1));
+    T_settop r_lua_settop = reinterpret_cast<T_settop>(EyeStep::util::createRoutine(unprotect(EyeStep::util::getPrologue(retcheck_xrefs[46])), 2));
+    T_pushlightuserdata r_lua_pushlightuserdata = reinterpret_cast<T_pushlightuserdata>(EyeStep::util::createRoutine(unprotect(EyeStep::util::getPrologue(retcheck_xrefs[22])), 2));
+
+    int rL = EyeStep::util::debug_r32(EyeStep::util::getPrologue(retcheck_xrefs[13]) + 3, EyeStep::R32_EBP, 8)[0];
+
+    r_lua_getfield(rL, -10002, "game");
+    LogOffNoHex("R_LUA_TUSERDATA", r_lua_type(rL, -1));
+
+    r_lua_settop(rL, 0);
+    r_lua_getfield(rL, -10002, "table");
+    LogOffNoHex("R_LUA_TTABLE", r_lua_type(rL, -1));
+
+    r_lua_settop(rL, 0);
+    r_lua_getfield(rL, -10002, "print");
+    LogOffNoHex("R_LUA_TFUNCTION", r_lua_type(rL, -1));
+
+    r_lua_settop(rL, 0);
+    r_lua_pushstring(rL, "e");
+    LogOffNoHex("R_LUA_TSTRING", r_lua_type(rL, -1));
+
+    r_lua_getfield(rL, -10002, "game");
+    r_lua_getfield(rL, -1, "Workspace");
+    r_lua_getfield(rL, -1, "FilteringEnabled");
+    LogOffNoHex("R_LUA_TBOOLEAN", r_lua_type(rL, -1));
+
+    r_lua_settop(rL, 0);
+    r_lua_getfield(rL, -10002, "game");
+    r_lua_getfield(rL, -1, "PlaceId");
+    LogOffNoHex("R_LUA_TNUMBER", r_lua_type(rL, -1));
+
+    r_lua_newthread(rL);
+    LogOffNoHex("R_LUA_TTHREAD", r_lua_type(rL, -1));
+
+    r_lua_pushlightuserdata(rL, 0);
+    LogOffNoHex("R_LUA_TLIGHTUSERDATA", r_lua_type(rL, -1));
+
+    r_lua_getfield(rL, -10002, "asdiohasdiyw");
+    LogOffNoHex("R_LUA_TNIL", r_lua_type(rL, -1));
+
+    r_lua_settop(rL, 0);
+
+    /*will add R_LUA_TPROTO at some point*/
 
 
     time(&end);

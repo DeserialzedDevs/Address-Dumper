@@ -38,5 +38,8 @@
     <ClInclude Include="EyeStep\eyestep_utility.h">
       <Filter>Source Files\EyeStep</Filter>
     </ClInclude>
+    <ClInclude Include="retcheck.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

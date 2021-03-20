@@ -160,6 +160,7 @@
     <ClInclude Include="AOBs.h" />
     <ClInclude Include="EyeStep\eyestep.h" />
     <ClInclude Include="EyeStep\eyestep_utility.h" />
+    <ClInclude Include="retcheck.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
