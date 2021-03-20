@@ -12,10 +12,74 @@ namespace Dumper
 {
     class Program
     {
+        // Intialize some sh*t
         public static WebClient wc = new WebClient();
         public static Stopwatch watch = new Stopwatch();
         public static int addycount;
 
+        // Cool functions
+        static void LogFunc(string fname, int addy)
+        {
+            if (!util.isPrologue(addy)) { addy = util.getPrologue(addy); }
+            int space = 25 - fname.Length;
+
+            Console.Write(fname);
+            for (int i = 0; i < space; i++) { Console.Write(" "); }
+
+            Console.Write(": 0x" + util.raslr(util.getPrologue(addy)).ToString("X") + " " + GetConvention(addy) + Environment.NewLine);
+            addycount = addycount + 1;
+        }
+
+        static void LogOffset(string name, int off)
+        {
+            int space = 25 - name.Length;
+
+            Console.Write(name);
+            for (int i = 0; i < space; i++) { Console.Write(" "); }
+            Console.Write(": " + off + Environment.NewLine);
+        }
+
+        static void LogAddr(string fname, int addy) // Cool function
+        {
+            int space = 25 - fname.Length;
+
+            Console.Write(fname);
+            for (int i = 0; i < space; i++) { Console.Write(" "); }
+
+            Console.Write(": 0x" + util.raslr(util.getPrologue(addy)).ToString("X") + Environment.NewLine);
+            addycount = addycount + 1;
+        }
+
+        static string GetConvention(int Function)
+        {
+            byte Call = util.getConvention(Function);
+            if (Call == 0)
+            {
+                return "__cdecl";
+            }
+            else if (Call == 1)
+            {
+                return "__stdcall";
+            }
+            else if (Call == 2)
+            {
+                return "__fastcall";
+            }
+            else if (Call == 3)
+            {
+                return "__thiscall";
+            }
+            else if (Call == 4)
+            {
+                return "[auto-generated]";
+            }
+            else
+            {
+                return "";
+            }
+        }
+
+        // start dumper
         static void Main(string[] args)
         {
             // AOBs
@@ -23,6 +87,8 @@ namespace Dumper
             string index2adr = "55 8B EC 8B 55 ?? 81 FA F0 D8 FF FF 7E 0F ?? ?? ?? ?? E2 04 03 51 10 8B C2 5D C2 08 00 8B 45 08"; /*may break at some point*/
             string retcheck = "55 8B EC 64 A1 00 00 00 00 6A ?? 68 E8 ?? ?? ?? ?? 64 89 25 00 00 00 00 83 EC ?? 53 56 57 6A ?? E9 ?? ?? ?? ??"; /*may break at some point*/
             string deserialize = "55 8B EC 6A FF 68 70 ?? ?? ?? ?? A1 00 00 00 00 50 64 89 25 00 00 00 00 81 EC 58 01 00 00 56 57"; /*Again not 100% sure about this one's integrity*/
+            string print = "55 8B EC 6A FF 68 ?? ?? ?? ?? 64 A1 00 00 00 00 50 64 89 25 00 00 00 00 83 EC 18 8D 45 10 50 FF";
+            string delay = "55 8B EC 6A FF 68 ?? ?? ?? ?? 64 A1 00 00 00 00 50 64 89 25 00 00 00 00 83 EC ?? 53 56 57 F0 FF";
 
             Console.Title = "C# Address Dumper";
             if (Process.GetProcessesByName("RobloxPlayerBeta").Length < 1)
@@ -46,6 +112,9 @@ namespace Dumper
             var retcheck_xrefs = scanner.scan_xrefs(retcheck_addr);
             var index2adr_xrefs = scanner.scan_xrefs(index2adr_addr);
 
+            Console.WriteLine();
+            Console.WriteLine("Addresses:");
+            Console.WriteLine();
             // Log addresses
             LogFunc("deserializer", deserialize_addr);
             LogFunc("index2adr", index2adr_addr);
@@ -118,55 +187,54 @@ namespace Dumper
 
             LogFunc("luaU_callhook", retcheck_xrefs[56]);
 
+            LogFunc("delay", scanner.scan(delay)[0]);
+            LogFunc("print", scanner.scan(print)[0]);
             LogFunc("f_call", retcheck_xrefs[0]);
             LogFunc("resume_error", retcheck_xrefs[55]);
+            Console.WriteLine();
+            LogAddr("RCCServiceDeserializeCall", scanner.scan_xrefs(deserialize_addr)[0]); // Log without ccv
+
+            // log and get offsets
+            Console.WriteLine();
+            Console.WriteLine("Offsets:");
+            Console.WriteLine();
+
+            int iscfunc_addr = util.getPrologue(index2adr_xrefs[8]);
+            for (int i = 0; i < 72; i++) // 72 is all the bytes in lua_iscfunction
+            {
+                if (util.readByte(iscfunc_addr + i) == 0x80)
+                { /*80 is the CMP instruction we're looking for*/
+                    LogOffset("IsC", util.readByte(iscfunc_addr + i + 2)); //the offset is the second register of the CMP inst
+                    break;
+                }
+                else if (util.isEpilogue(iscfunc_addr + i))
+                {
+                    Console.WriteLine("Unable to find IsC offset");
+                    break;
+                }
+            }
+
+            for (int i = 0; i < 16; i++) // gettop is 16 bytes
+            {
+                if (util.readByte(gettop_addr + i) == 0x2B)
+                { /*2B is the sub instruction that uses base*/
+                    LogOffset("ls_base", util.readByte(gettop_addr + i + 2)); /*second register*/
+                    LogOffset("ls_top", util.readByte(gettop_addr + i - 1)); /*top is just 1 byte back from the sub inst*/
+                    break;
+                }
+                else if (util.isEpilogue(gettop_addr + i))
+                {
+                    Console.WriteLine("Unable to find top and base");
+                    break;
+                }
+            }
+            // the IsC dumping might die at one point but it shouldnt for a long time
 
             watch.Stop();
             Console.WriteLine();
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("Scanned " + addycount + " addresses" + " in " + watch.ElapsedMilliseconds + "ms");
             Thread.Sleep(-1);
-        }
-
-        static void LogFunc(string fname, int addy) // Cool function
-        {
-            if (!util.isPrologue(addy)) { addy = util.getPrologue(addy); }
-            int space = 25 - fname.Length;
-
-            Console.Write(fname);
-            for (int i = 0; i < space; i++) { Console.Write(" "); }
-
-            Console.Write(": 0x" + util.raslr(util.getPrologue(addy)).ToString("X") + " " + GetConvention(addy) + Environment.NewLine);
-            addycount = addycount + 1;
-        }
-        
-        static string GetConvention(int Function)
-        {
-            byte Call = util.getConvention(Function);
-            if (Call == 0)
-            {
-                return "__cdecl";
-            }
-            else if (Call == 1)
-            {
-                return "__stdcall";
-            }
-            else if (Call == 2)
-            {
-                return "__fastcall";
-            }
-            else if (Call == 3)
-            {
-                return "__thiscall";
-            }
-            else if (Call == 4)
-            {
-                return "[auto-generated]";
-            }
-            else
-            {
-                return "";
-            }
         }
     }
 }
