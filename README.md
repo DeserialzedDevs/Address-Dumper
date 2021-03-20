@@ -14,7 +14,7 @@ Side note: Calling conventions are currently innacurate
 GNU General Public License 3.0
 
 ## Status
-Unfinished Work-In-Progress
+Almost finished
 
 ## Made with
 <a title="C++" href="https://www.learncpp.com/">
