@@ -36,7 +36,7 @@ namespace Dumper
 
             Console.Write(name);
             for (int i = 0; i < space; i++) { Console.Write(" "); }
-            Console.Write(": " + off + Environment.NewLine);
+            Console.Write(": 0x" + off + Environment.NewLine);
         }
 
         static void LogAddr(string fname, int addy) // Cool function
