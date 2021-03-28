@@ -8,7 +8,7 @@ Side note 2: Only [C++ Internal](https://github.com/DeserialzedDevs/Address-Dump
 ## Versions
 [C++ Internal](https://github.com/DeserialzedDevs/Address-Dumper/tree/main/Internal)
 
-[C++ External](https://github.com/DeserialzedDevs/Address-Dumper/tree/main/External)
+~~C++ External~~
 
 [C# External](https://github.com/DeserialzedDevs/Address-Dumper/tree/main/C%23)
 
