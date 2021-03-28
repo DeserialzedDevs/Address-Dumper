@@ -3,18 +3,17 @@ An open source ROBLOX address dumper by DeserializedDevs.
 
 Side note: Calling conventions are currently innacurate
 
+Side note 2: Only [C++ Internal](https://github.com/DeserialzedDevs/Address-Dumper/tree/main/Internal) has types. Because deaddlocust is working on the external ones and he is stupid and has no idea how to get types externally. Ikr disgusting.
+
 ## Versions
 [C++ Internal](https://github.com/DeserialzedDevs/Address-Dumper/tree/main/Internal)
 
-[C++ External](https://github.com/DeserialzedDevs/Address-Dumper/tree/main/External)
+~~C++ External~~
 
 [C# External](https://github.com/DeserialzedDevs/Address-Dumper/tree/main/C%23)
 
 ## License
 GNU General Public License 3.0
-
-## Status
-Almost finished
 
 ## Made with
 <a title="C++" href="https://www.learncpp.com/">

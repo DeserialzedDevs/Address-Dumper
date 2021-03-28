@@ -18,7 +18,7 @@ namespace Dumper
         public static int addycount;
 
         // Cool functions
-        static void LogFunc(string fname, int addy)
+        static void LogFunc(string fname, int addy, int conv_args)
         {
             if (!util.isPrologue(addy)) { addy = util.getPrologue(addy); }
             int space = 25 - fname.Length;
@@ -26,7 +26,7 @@ namespace Dumper
             Console.Write(fname);
             for (int i = 0; i < space; i++) { Console.Write(" "); }
 
-            Console.Write(": 0x" + util.raslr(util.getPrologue(addy)).ToString("X") + " " + GetConvention(addy) + Environment.NewLine);
+            Console.Write(": 0x" + util.raslr(util.getPrologue(addy)).ToString("X") + " " + GetConvention(addy, conv_args) + Environment.NewLine);
             addycount = addycount + 1;
         }
 
@@ -39,7 +39,7 @@ namespace Dumper
             Console.Write(": 0x" + off + Environment.NewLine);
         }
 
-        static void LogOffNoHex(string name, int off) 
+        static void LogOffNoHex(string name, int off)
         {
             int space = 25 - name.Length;
 
@@ -48,7 +48,7 @@ namespace Dumper
             Console.Write(": " + off + Environment.NewLine);
         }
 
-    static void LogAddr(string fname, int addy) // Cool function
+        static void LogAddr(string fname, int addy) // Cool function
         {
             int space = 25 - fname.Length;
 
@@ -59,9 +59,9 @@ namespace Dumper
             addycount = addycount + 1;
         }
 
-        static string GetConvention(int Function)
+        static string GetConvention(int function, int args)
         {
-            byte Call = util.getConvention(Function);
+            byte Call = util.getConvention(function, args);
             if (Call == 0)
             {
                 return "__cdecl";
@@ -97,7 +97,6 @@ namespace Dumper
             string retcheck = "55 8B EC 64 A1 00 00 00 00 6A ?? 68 E8 ?? ?? ?? ?? 64 89 25 00 00 00 00 83 EC ?? 53 56 57 6A ?? E9 ?? ?? ?? ??"; /*may break at some point*/
             string deserialize = "55 8B EC 6A FF 68 70 ?? ?? ?? ?? A1 00 00 00 00 50 64 89 25 00 00 00 00 81 EC 58 01 00 00 56 57"; /*Again not 100% sure about this one's integrity*/
             string print = "55 8B EC 6A FF 68 ?? ?? ?? ?? 64 A1 00 00 00 00 50 64 89 25 00 00 00 00 83 EC 18 8D 45 10 50 FF";
-            string delay = "55 8B EC 6A FF 68 ?? ?? ?? ?? 64 A1 00 00 00 00 50 64 89 25 00 00 00 00 83 EC ?? 53 56 57 F0 FF";
             string checklstring = "55 8B EC FF 75 ?? 8B 55 ?? 8B 4D ?? E8 ?? ?? ?? ?? 85 C0 74 02 5D C3 6A ?? FF 75 ?? FF 75 ?? E8 6C 07 00 00";
 
             Console.Title = "C# Address Dumper";
@@ -124,92 +123,89 @@ namespace Dumper
 
             Console.WriteLine();
             Console.WriteLine("Addresses:");
-            Console.WriteLine();
             // Log addresses
-            LogFunc("deserializer", deserialize_addr);
-            LogFunc("index2adr", index2adr_addr);
+            LogFunc("deserializer", deserialize_addr, 4);
+            LogFunc("index2adr", index2adr_addr, 2);
 
-            LogFunc("lua_call", retcheck_xrefs[1]);
-            LogFunc("lua_concat", retcheck_xrefs[3]);
-            LogFunc("lua_createtable", retcheck_xrefs[4]);
-            LogFunc("lua_gc", retcheck_xrefs[5]);
-            LogFunc("lua_getargument", retcheck_xrefs[57]);
-            LogFunc("lua_getfenv", retcheck_xrefs[6]);
-            LogFunc("lua_getfield", retcheck_xrefs[7]);
-            LogFunc("lua_getinfo", retcheck_xrefs[58]);
-            LogFunc("lua_getmetatable", retcheck_xrefs[8]);
-            LogFunc("lua_gettable", retcheck_xrefs[9]);
-            LogFunc("lua_gettop", gettop_addr);
-            LogFunc("lua_getupvalue", retcheck_xrefs[10]);
-            LogFunc("lua_insert", retcheck_xrefs[11]);
-            LogFunc("lua_iscfunction", index2adr_xrefs[8]);
-            LogFunc("lua_isnumber", index2adr_xrefs[9]);
-            LogFunc("lua_isstring", index2adr_xrefs[10]);
-            LogFunc("lua_isuserdata", index2adr_xrefs[7]);
-            LogFunc("lua_lessthan", retcheck_xrefs[12]);
-            LogFunc("lua_newthread", retcheck_xrefs[13]);
-            LogFunc("lua_newuserdata", retcheck_xrefs[14]);
-            LogFunc("lua_next", retcheck_xrefs[15]);
-            LogFunc("lua_objlen", retcheck_xrefs[16]);
-            LogFunc("lua_pcall", retcheck_xrefs[17]);
-            LogFunc("lua_pushboolean", retcheck_xrefs[18]);
-            LogFunc("lua_pushcclosure", retcheck_xrefs[19]);
-            LogFunc("lua_pushfstring", retcheck_xrefs[20]);
-            LogFunc("lua_pushinteger", retcheck_xrefs[21]);
-            LogFunc("lua_pushlightuserdata", retcheck_xrefs[22]);
-            LogFunc("lua_pushlstring", retcheck_xrefs[23]);
-            LogFunc("lua_pushnil", retcheck_xrefs[24]);
-            LogFunc("lua_pushnumber", retcheck_xrefs[25]);
-            LogFunc("lua_pushstring", retcheck_xrefs[26]);
-            LogFunc("lua_pushthread", retcheck_xrefs[28]);
-            LogFunc("lua_pushvalue", retcheck_xrefs[30]);
-            LogFunc("lua_pushvfstring", retcheck_xrefs[31]);
-            LogFunc("lua_checkstack", retcheck_xrefs[32]);
-            LogFunc("lua_rawget", retcheck_xrefs[33]);
-            LogFunc("lua_rawgeti", retcheck_xrefs[35]);
-            LogFunc("lua_rawset", retcheck_xrefs[36]);
-            LogFunc("lua_rawseti", retcheck_xrefs[37]);
-            LogFunc("lua_rawvalue", index2adr_xrefs[0]);
-            LogFunc("lua_remove", retcheck_xrefs[38]);
-            LogFunc("lua_replace", retcheck_xrefs[39]);
-            LogFunc("lua_resume", retcheck_xrefs[53]);
-            LogFunc("lua_setfenv", retcheck_xrefs[40]);
-            LogFunc("lua_setfield", retcheck_xrefs[41]);
-            LogFunc("lua_setlocal", retcheck_xrefs[60]);
-            LogFunc("lua_setmetatable", retcheck_xrefs[42]);
-            LogFunc("lua_setreadonly", retcheck_xrefs[43]);
-            LogFunc("lua_setsafeenv", retcheck_xrefs[44]);
-            LogFunc("lua_settable", retcheck_xrefs[45]);
-            LogFunc("lua_settop", retcheck_xrefs[46]);
-            LogFunc("lua_setupvalue", retcheck_xrefs[47]);
-            LogFunc("lua_toboolean", index2adr_xrefs[33]);
-            LogFunc("lua_tointeger", index2adr_xrefs[34]);
-            LogFunc("lua_tolstring", retcheck_xrefs[48]);
-            LogFunc("lua_tonumber", index2adr_xrefs[37]);
-            LogFunc("lua_topointer", index2adr_xrefs[38]);
-            LogFunc("lua_tostring", index2adr_xrefs[40]);
-            LogFunc("lua_tothread", index2adr_xrefs[42]);
-            LogFunc("lua_tounsignedx", index2adr_xrefs[43]);
-            LogFunc("lua_touserdata", index2adr_xrefs[44]);
-            LogFunc("lua_type", index2adr_xrefs[47]);
-            LogFunc("lua_yield", retcheck_xrefs[54]);
-            LogFunc("lua_xmove", retcheck_xrefs[50]);
+            LogFunc("lua_call", retcheck_xrefs[1], 3);
+            LogFunc("lua_checkstack", retcheck_xrefs[32], 2);
+            LogFunc("lua_concat", retcheck_xrefs[3], 2);
+            LogFunc("lua_createtable", retcheck_xrefs[4], 3);
+            LogFunc("lua_gc", retcheck_xrefs[5], 3);
+            LogFunc("lua_getargument", retcheck_xrefs[57], 3);
+            LogFunc("lua_getfenv", retcheck_xrefs[6], 2);
+            LogFunc("lua_getfield", retcheck_xrefs[7], 3);
+            LogFunc("lua_getinfo", retcheck_xrefs[58], 3);
+            LogFunc("lua_getmetatable", retcheck_xrefs[8], 2);
+            LogFunc("lua_gettable", retcheck_xrefs[9], 2);
+            LogFunc("lua_gettop", gettop_addr, 1);
+            LogFunc("lua_getupvalue", retcheck_xrefs[10], 3);
+            LogFunc("lua_insert", retcheck_xrefs[11], 2);
+            LogFunc("lua_iscfunction", index2adr_xrefs[8], 2);
+            LogFunc("lua_isnumber", index2adr_xrefs[9], 2);
+            LogFunc("lua_isstring", index2adr_xrefs[10], 2);
+            LogFunc("lua_isuserdata", index2adr_xrefs[7], 2);
+            LogFunc("lua_lessthan", retcheck_xrefs[12], 3);
+            LogFunc("lua_newthread", retcheck_xrefs[13], 1);
+            LogFunc("lua_newuserdata", retcheck_xrefs[14], 3);
+            LogFunc("lua_next", retcheck_xrefs[15], 2);
+            LogFunc("lua_objlen", retcheck_xrefs[16], 2);
+            LogFunc("lua_pcall", retcheck_xrefs[17], 4);
+            LogFunc("lua_pushboolean", retcheck_xrefs[18], 2);
+            LogFunc("lua_pushcclosure", retcheck_xrefs[19], 5);
+            LogFunc("lua_pushfstring", retcheck_xrefs[20], 3);
+            LogFunc("lua_pushinteger", retcheck_xrefs[21], 2);
+            LogFunc("lua_pushlightuserdata", retcheck_xrefs[22], 2);
+            LogFunc("lua_pushlstring", retcheck_xrefs[23], 3);
+            LogFunc("lua_pushnil", retcheck_xrefs[24], 1);
+            LogFunc("lua_pushnumber", retcheck_xrefs[25], 2);
+            LogFunc("lua_pushstring", retcheck_xrefs[26], 2);
+            LogFunc("lua_pushthread", retcheck_xrefs[28], 1);
+            LogFunc("lua_pushvalue", retcheck_xrefs[30], 2);
+            LogFunc("lua_pushvfstring", retcheck_xrefs[31], 3);
+            LogFunc("lua_rawget", retcheck_xrefs[33], 2);
+            LogFunc("lua_rawgeti", retcheck_xrefs[35], 3);
+            LogFunc("lua_rawset", retcheck_xrefs[36], 2);
+            LogFunc("lua_rawseti", retcheck_xrefs[37], 3);
+            LogFunc("lua_rawvalue", index2adr_xrefs[0], 2);
+            LogFunc("lua_remove", retcheck_xrefs[38], 2);
+            LogFunc("lua_replace", retcheck_xrefs[39], 2);
+            LogFunc("lua_resume", retcheck_xrefs[53], 2);
+            LogFunc("lua_setfenv", retcheck_xrefs[40], 2);
+            LogFunc("lua_setfield", retcheck_xrefs[41], 3);
+            LogFunc("lua_setlocal", retcheck_xrefs[60], 3);
+            LogFunc("lua_setmetatable", retcheck_xrefs[42], 2);
+            LogFunc("lua_setreadonly", retcheck_xrefs[43], 3);
+            LogFunc("lua_setsafeenv", retcheck_xrefs[44], 3);
+            LogFunc("lua_settable", retcheck_xrefs[45], 2);
+            LogFunc("lua_settop", retcheck_xrefs[46], 2);
+            LogFunc("lua_setupvalue", retcheck_xrefs[47], 3);
+            LogFunc("lua_toboolean", index2adr_xrefs[33], 2);
+            LogFunc("lua_tointeger", index2adr_xrefs[34], 3);
+            LogFunc("lua_tolstring", retcheck_xrefs[48], 3);
+            LogFunc("lua_tonumber", index2adr_xrefs[37], 3);
+            LogFunc("lua_topointer", index2adr_xrefs[38], 2);
+            LogFunc("lua_tostring", index2adr_xrefs[40], 2);
+            LogFunc("lua_tothread", index2adr_xrefs[42], 2);
+            LogFunc("lua_tounsignedx", index2adr_xrefs[43], 3);
+            LogFunc("lua_touserdata", index2adr_xrefs[44], 2);
+            LogFunc("lua_type", index2adr_xrefs[47], 2);
+            LogFunc("lua_yield", retcheck_xrefs[54], 2);
+            LogFunc("lua_xmove", retcheck_xrefs[50], 3);
 
-            LogFunc("luaL_checklstring", scanner.scan(checklstring)[0]);
+            LogFunc("luaL_checklstring", scanner.scan(checklstring)[0], 3);
 
-            LogFunc("luaU_callhook", retcheck_xrefs[56]);
+            LogFunc("luaU_callhook", retcheck_xrefs[56], 3);
 
-            LogFunc("delay", scanner.scan(delay)[0]);
-            LogFunc("print", scanner.scan(print)[0]);
-            LogFunc("f_call", retcheck_xrefs[0]);
-            LogFunc("resume_error", retcheck_xrefs[55]);
+            LogFunc("print", scanner.scan(print)[0], 3);
+            LogFunc("f_call", retcheck_xrefs[0], 2);
+            LogFunc("resume_error", retcheck_xrefs[55], 2);
             Console.WriteLine();
             LogAddr("RCCServiceDeserializeCall", scanner.scan_xrefs(deserialize_addr)[0]); // Log without ccv
 
             // log and get offsets
             Console.WriteLine();
             Console.WriteLine("Offsets:");
-            Console.WriteLine();
 
             int iscfunc_addr = util.getPrologue(index2adr_xrefs[8]);
             for (int i = 0; i < 72; i++) // 72 is all the bytes in lua_iscfunction
