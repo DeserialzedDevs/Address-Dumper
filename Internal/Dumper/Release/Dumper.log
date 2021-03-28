@@ -1,14 +1,14 @@
 ﻿  dllmain.cpp
-C:\Users\Ethan\source\repos\Dumper\Dumper\retcheck.h(121,1): warning C4005: 'PRE_66': macro redefinition
-C:\Users\Ethan\source\repos\Dumper\Dumper\EyeStep\eyestep.h(19): message : see previous definition of 'PRE_66'
-C:\Users\Ethan\source\repos\Dumper\Dumper\retcheck.h(122,1): warning C4005: 'PRE_67': macro redefinition
-C:\Users\Ethan\source\repos\Dumper\Dumper\EyeStep\eyestep.h(20): message : see previous definition of 'PRE_67'
-C:\Users\Ethan\source\repos\Dumper\Dumper\retcheck.h(123,1): warning C4005: 'PRE_LOCK': macro redefinition
-C:\Users\Ethan\source\repos\Dumper\Dumper\EyeStep\eyestep.h(21): message : see previous definition of 'PRE_LOCK'
-C:\Users\Ethan\source\repos\Dumper\Dumper\dllmain.cpp(51,13): warning C4326: return type of 'main' should be 'int' instead of 'void'
+C:\Users\Ethan\Documents\GitHub\Address-Dumper\Internal\Dumper\retcheck.h(121,1): warning C4005: 'PRE_66': macro redefinition
+C:\Users\Ethan\Documents\GitHub\Address-Dumper\Internal\Dumper\EyeStep\eyestep.h(19): message : see previous definition of 'PRE_66'
+C:\Users\Ethan\Documents\GitHub\Address-Dumper\Internal\Dumper\retcheck.h(122,1): warning C4005: 'PRE_67': macro redefinition
+C:\Users\Ethan\Documents\GitHub\Address-Dumper\Internal\Dumper\EyeStep\eyestep.h(20): message : see previous definition of 'PRE_67'
+C:\Users\Ethan\Documents\GitHub\Address-Dumper\Internal\Dumper\retcheck.h(123,1): warning C4005: 'PRE_LOCK': macro redefinition
+C:\Users\Ethan\Documents\GitHub\Address-Dumper\Internal\Dumper\EyeStep\eyestep.h(21): message : see previous definition of 'PRE_LOCK'
+C:\Users\Ethan\Documents\GitHub\Address-Dumper\Internal\Dumper\dllmain.cpp(51,13): warning C4326: return type of 'main' should be 'int' instead of 'void'
   Generating code
-  6 of 653 functions ( 0.9%) were compiled, the rest were copied from previous compilation.
+  1 of 669 functions ( 0.1%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
-    11 functions had inline decision re-evaluated but remain unchanged
+    8 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
-  Dumper.vcxproj -> C:\Users\Ethan\source\repos\Dumper\Release\Dumper.dll
+  Dumper.vcxproj -> C:\Users\Ethan\Documents\GitHub\Address-Dumper\Internal\Release\Dumper.dll

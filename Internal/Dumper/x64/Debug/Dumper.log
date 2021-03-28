@@ -1,0 +1,7 @@
+﻿  dllmain.cpp
+C:\Users\Ethan\Documents\GitHub\Address-Dumper\Internal\Dumper\dllmain.cpp(253,1): fatal error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "pch.h"' to your source?
+  eyestep.cpp
+C:\Users\Ethan\Documents\GitHub\Address-Dumper\Internal\Dumper\EyeStep\eyestep.cpp(1986,1): fatal error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "pch.h"' to your source?
+  eyestep_utility.cpp
+C:\Users\Ethan\Documents\GitHub\Address-Dumper\Internal\Dumper\EyeStep\eyestep_utility.cpp(1667,1): fatal error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "pch.h"' to your source?
+  Generating Code...

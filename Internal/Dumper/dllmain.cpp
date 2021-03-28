@@ -64,11 +64,17 @@ void main() {
     time_t begin, end;
     time(&begin);
 
+    auto tostring = EyeStep::scanner::scan_xrefs("'tostring' must return a string to 'print'")[0];
+    auto tostring_calls = EyeStep::util::getCalls(EyeStep::util::getPrologue(tostring));
+
+    int getfield_addr = tostring_calls[2];
+    auto getfield_calls = EyeStep::util::getCalls(getfield_addr);
+
 	/*scan for shit with the AOBs*/
-	int gettop_addr = EyeStep::scanner::scan(AOB::gettop)[0];
-	int index2adr_addr = EyeStep::scanner::scan(AOB::index2adr)[0];
-	int retcheck_addr = EyeStep::scanner::scan(AOB::retcheck)[0];
-	int deserialize_addr = EyeStep::scanner::scan(AOB::deserialize)[0];
+    int gettop_addr = EyeStep::scanner::scan(AOB::gettop)[0];
+    int index2adr_addr = getfield_calls[0];
+	int retcheck_addr = getfield_calls[3];
+	int deserialize_addr = EyeStep::util::getPrologue(EyeStep::scanner::scan_xrefs(": bytecode")[0]);
 
 	auto retcheck_xrefs = EyeStep::scanner::scan_xrefs(retcheck_addr);
 	auto index2adr_xrefs = EyeStep::scanner::scan_xrefs(index2adr_addr);
@@ -122,7 +128,7 @@ void main() {
     LogFunc("lua_resume", retcheck_xrefs[53]);
     LogFunc("lua_setfenv", retcheck_xrefs[40]);
     LogFunc("lua_setfield", retcheck_xrefs[41]);
-    LogFunc("lua_setlocal", retcheck_xrefs[60]);
+    //LogFunc("lua_setlocal", retcheck_xrefs[60]); <-- not working
     LogFunc("lua_setmetatable", retcheck_xrefs[42]);
     LogFunc("lua_setreadonly", retcheck_xrefs[43]);
     LogFunc("lua_setsafeenv", retcheck_xrefs[44]);
@@ -144,7 +150,7 @@ void main() {
 
     LogFunc("luaU_callhook", retcheck_xrefs[56]);
 
-    LogFunc("luaL_checklstring", EyeStep::scanner::scan(AOB::lual_checklstring)[0]);
+    //LogFunc("luaL_checklstring", EyeStep::scanner::scan(AOB::lual_checklstring)[0]); <-- this broke too but ill fix it later... fucking AOBs
 
     LogFunc("f_call", retcheck_xrefs[0]);
     LogFunc("resume_error", retcheck_xrefs[55]);
@@ -156,31 +162,42 @@ void main() {
     std::cout << std::endl << std::endl << "Offsets: " << std::endl;
 
     int iscfunc_addr = EyeStep::util::getPrologue(index2adr_xrefs[8]);
-    /*72 is all the bytes in lua_iscfunction*/
-    for (int i = 0; i < 72; i++) {
-        if (EyeStep::util::readByte(iscfunc_addr + i) == 0x80) { /*80 is the CMP instruction we're looking for*/
-            LogOff("IsC", EyeStep::util::readByte(iscfunc_addr + i + 2)); /*the offset is the second register of the CMP inst*/
+    int func_size = EyeStep::util::nextPrologue(iscfunc_addr) - iscfunc_addr;
+
+    for (int i = 0; i < func_size; i++)
+    {
+        auto inst = EyeStep::read(iscfunc_addr + i);
+        if (inst.info.code == "80+m7")
+        {
+            LogOff("IsC", EyeStep::util::readByte(inst.address + 2));
             break;
         }
-        else if (EyeStep::util::isEpilogue(iscfunc_addr + i)) {
+        else if (i == func_size - 1)
+        {
             std::cout << "Unable to find IsC offset" << std::endl;
             break;
         }
     }
 
     /*gettop is 16 bytes*/
-    for (int i = 0; i < 16; i++) {
-        if (EyeStep::util::readByte(gettop_addr + i) == 0x2B) { /*2B is the sub instruction that uses base*/
-            LogOff("ls_base", EyeStep::util::readByte(gettop_addr + i + 2)); /*second register*/
-            LogOff("ls_top", EyeStep::util::readByte(gettop_addr + i - 1)); /*top is just 1 byte back from the sub inst*/
+    for (int i = 0; i < 16; i++)
+    {
+        auto inst = EyeStep::read(gettop_addr + i);
+        if (inst.info.code == "2B")
+        { /*2B is the sub instruction that uses base*/
+            LogOff("ls_base", EyeStep::util::readByte(inst.address + 2)); /*second register*/
+            LogOff("ls_top", EyeStep::util::readByte(inst.address - 1)); /*top is just 1 byte back from the sub inst*/
             break;
         }
-        else if (EyeStep::util::isEpilogue(gettop_addr + i)) {
-            std::cout << "Unable to find top and base" << std::endl;
+        else if (i == func_size - 1)
+        {
+            std::cout << "Unable to find top and base offset" << std::endl;
             break;
         }
     }
-    /*the IsC dumping might die at one point but it shouldnt for a long time*/
+
+
+
 
 
     typedef int(__cdecl* T_getfield)(int, int, const char*);
