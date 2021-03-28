@@ -15,9 +15,6 @@ Side note 2: Only [C++ Internal](https://github.com/DeserialzedDevs/Address-Dump
 ## License
 GNU General Public License 3.0
 
-## Status
-Almost finished
-
 ## Made with
 <a title="C++" href="https://www.learncpp.com/">
     <img width="35" src="https://github.com/devicons/devicon/blob/master/icons/cplusplus/cplusplus-original.svg" alt="CPP">
