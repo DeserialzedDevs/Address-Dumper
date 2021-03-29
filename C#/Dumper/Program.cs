@@ -26,7 +26,7 @@ namespace Dumper
             Console.Write(fname);
             for (int i = 0; i < space; i++) { Console.Write(" "); }
 
-            Console.Write(": 0x" + util.raslr(util.getPrologue(addy)).ToString("X") + " " + GetConvention(addy, conv_args) + Environment.NewLine);
+            Console.Write(": 0x" + util.raslr(util.getPrologue(addy)).ToString("X8").Remove(0, 1) + " " + GetConvention(addy, conv_args) + Environment.NewLine);
             addycount = addycount + 1;
         }
 
@@ -55,7 +55,7 @@ namespace Dumper
             Console.Write(fname);
             for (int i = 0; i < space; i++) { Console.Write(" "); }
 
-            Console.Write(": 0x" + util.raslr(util.getPrologue(addy)).ToString("X") + Environment.NewLine);
+            Console.Write(": 0x" + util.raslr(util.getPrologue(addy)).ToString("X8").Remove(0, 1) + Environment.NewLine);
             addycount = addycount + 1;
         }
 
@@ -93,9 +93,7 @@ namespace Dumper
         {
             // AOBs
             string gettop = "55 8B EC 8B 4D 08 8B 41 ?? 2B 41 ?? C1 F8 04 5D"; /*this will never change*/
-            string index2adr = "55 8B EC 8B 55 ?? 81 FA F0 D8 FF FF 7E 0F ?? ?? ?? ?? E2 04 03 51 10 8B C2 5D C2 08 00 8B 45 08"; /*may break at some point*/
-            string retcheck = "55 8B EC 64 A1 00 00 00 00 6A ?? 68 E8 ?? ?? ?? ?? 64 89 25 00 00 00 00 83 EC ?? 53 56 57 6A ?? E9 ?? ?? ?? ??"; /*may break at some point*/
-            string deserialize = "55 8B EC 6A FF 68 70 ?? ?? ?? ?? A1 00 00 00 00 50 64 89 25 00 00 00 00 81 EC 58 01 00 00 56 57"; /*Again not 100% sure about this one's integrity*/
+            string delay = "55 8B EC 6A FF 68 ?? ?? ?? ?? 64 A1 00 00 00 00 50 64 89 25 00 00 00 00 83 EC ?? 53 56 57 F0 FF";
             string print = "55 8B EC 6A FF 68 ?? ?? ?? ?? 64 A1 00 00 00 00 50 64 89 25 00 00 00 00 83 EC 18 8D 45 10 50 FF";
             string checklstring = "55 8B EC FF 75 ?? 8B 55 ?? 8B 4D ?? E8 ?? ?? ?? ?? 85 C0 74 02 5D C3 6A ?? FF 75 ?? FF 75 ?? E8 6C 07 00 00";
 
@@ -108,14 +106,23 @@ namespace Dumper
                 Environment.Exit(0);
             }
             EyeStep.open("RobloxPlayerBeta.exe");
+            Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("Scanning RBX...");
+            Console.ForegroundColor = ConsoleColor.Gray;
             watch.Start();
+
+            // get index2adr
+            var tostring = scanner.scan_xrefs("'tostring' must return a string to 'print'")[0];
+            var tostring_calls = util.getCalls(util.getPrologue(tostring));
+
+            int getfield_addr = tostring_calls[2];
+            var getfield_calls = util.getCalls(getfield_addr);
 
             // Scan AOBs
             int gettop_addr = scanner.scan(gettop)[0];
-            int index2adr_addr = scanner.scan(index2adr)[0];
-            int retcheck_addr = scanner.scan(retcheck)[0];
-            int deserialize_addr = scanner.scan(deserialize)[0];
+            int index2adr_addr = getfield_calls[0];
+            int retcheck_addr = getfield_calls[3];
+            int deserialize_addr = util.getPrologue(scanner.scan_xrefs(": bytecode")[0]);
 
             // More scanning
             var retcheck_xrefs = scanner.scan_xrefs(retcheck_addr);
@@ -173,7 +180,6 @@ namespace Dumper
             LogFunc("lua_resume", retcheck_xrefs[53], 2);
             LogFunc("lua_setfenv", retcheck_xrefs[40], 2);
             LogFunc("lua_setfield", retcheck_xrefs[41], 3);
-            LogFunc("lua_setlocal", retcheck_xrefs[60], 3);
             LogFunc("lua_setmetatable", retcheck_xrefs[42], 2);
             LogFunc("lua_setreadonly", retcheck_xrefs[43], 3);
             LogFunc("lua_setsafeenv", retcheck_xrefs[44], 3);
@@ -193,14 +199,12 @@ namespace Dumper
             LogFunc("lua_yield", retcheck_xrefs[54], 2);
             LogFunc("lua_xmove", retcheck_xrefs[50], 3);
 
-            LogFunc("luaL_checklstring", scanner.scan(checklstring)[0], 3);
-
             LogFunc("luaU_callhook", retcheck_xrefs[56], 3);
 
+            LogFunc("delay", scanner.scan(delay)[0], 1);
             LogFunc("print", scanner.scan(print)[0], 3);
             LogFunc("f_call", retcheck_xrefs[0], 2);
             LogFunc("resume_error", retcheck_xrefs[55], 2);
-            Console.WriteLine();
             LogAddr("RCCServiceDeserializeCall", scanner.scan_xrefs(deserialize_addr)[0]); // Log without ccv
 
             // log and get offsets
