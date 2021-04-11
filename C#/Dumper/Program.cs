@@ -205,6 +205,7 @@ namespace Dumper
             LogFunc("print", scanner.scan(print)[0], 3);
             LogFunc("f_call", retcheck_xrefs[0], 2);
             LogFunc("resume_error", retcheck_xrefs[55], 2);
+            LogAddr("retcheck", getfield_calls[3]);
             LogAddr("RCCServiceDeserializeCall", scanner.scan_xrefs(deserialize_addr)[0]); // Log without ccv
 
             // log and get offsets
