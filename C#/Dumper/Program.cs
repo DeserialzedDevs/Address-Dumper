@@ -131,7 +131,7 @@ namespace Dumper
             Console.WriteLine();
             Console.WriteLine("Addresses:");
             // Log addresses
-            LogFunc("deserializer", deserialize_addr, 4);
+            LogFunc("deserializer", deserialize_addr, 5);
             LogFunc("index2adr", index2adr_addr, 2);
 
             LogFunc("lua_call", retcheck_xrefs[1], 3);
