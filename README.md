@@ -6,7 +6,7 @@ An open source ROBLOX address dumper by DeserializedDevs.
 
 Side note: Calling conventions are currently innacurate for [C++ Internal](https://github.com/DeserialzedDevs/Address-Dumper/tree/main/Internal).
 
-Side note 2: Only [C++ Internal](https://github.com/DeserialzedDevs/Address-Dumper/tree/main/Internal) has type scanning. Because deaddlocust is working on the external ones and he is stupid and has no idea how to get types externally. Ikr disgusting.
+Side note 2: Only [C++ Internal](https://github.com/DeserialzedDevs/Address-Dumper/tree/main/Internal) has type scanning. Because deadlocust is working on the external ones and he is stupid and has no idea how to get types externally. Ikr disgusting.
 
 ## Versions
 [C++ Internal](https://github.com/DeserialzedDevs/Address-Dumper/tree/main/Internal)
