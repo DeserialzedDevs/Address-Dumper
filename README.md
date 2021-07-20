@@ -1,4 +1,7 @@
 # Address-Dumper
+
+NOTE: This is now fucking broken and no one can be bothered to update it. So i guess the only use for this is to steal strings to scan for your dumper /shrug.
+
 An open source ROBLOX address dumper by DeserializedDevs.
 
 Side note: Calling conventions are currently innacurate for [C++ Internal](https://github.com/DeserialzedDevs/Address-Dumper/tree/main/Internal).
